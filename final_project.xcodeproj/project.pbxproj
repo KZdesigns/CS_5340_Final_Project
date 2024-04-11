@@ -41,9 +41,9 @@
 		03C8911A2BC4F1C7006FCFB9 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 03C891192BC4F1C7006FCFB9 /* FirebaseStorageCombine-Community */; };
 		03C8911F2BC4F549006FCFB9 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C8911E2BC4F549006FCFB9 /* SignUpView.swift */; };
 		03C891212BC4F653006FCFB9 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C891202BC4F653006FCFB9 /* UserModel.swift */; };
-		03C891232BC4F668006FCFB9 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C891222BC4F667006FCFB9 /* SignUpViewModel.swift */; };
 		03C891272BC4FB9C006FCFB9 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C891262BC4FB9B006FCFB9 /* SignInView.swift */; };
-		03C891292BC4FBA9006FCFB9 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C891282BC4FBA9006FCFB9 /* SignInViewModel.swift */; };
+		03C891292BC4FBA9006FCFB9 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C891282BC4FBA9006FCFB9 /* UserViewModel.swift */; };
+		03C8912D2BC794AF006FCFB9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C8912C2BC794AF006FCFB9 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,9 +55,9 @@
 		03C890E22BC4F059006FCFB9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		03C8911E2BC4F549006FCFB9 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		03C891202BC4F653006FCFB9 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
-		03C891222BC4F667006FCFB9 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		03C891262BC4FB9B006FCFB9 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
-		03C891282BC4FBA9006FCFB9 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		03C891282BC4FBA9006FCFB9 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		03C8912C2BC794AF006FCFB9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +142,7 @@
 				03C890D62BC4EEE6006FCFB9 /* ContentView.swift */,
 				03C8911E2BC4F549006FCFB9 /* SignUpView.swift */,
 				03C891262BC4FB9B006FCFB9 /* SignInView.swift */,
+				03C8912C2BC794AF006FCFB9 /* HomeView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -149,8 +150,7 @@
 		03C8911C2BC4F520006FCFB9 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				03C891222BC4F667006FCFB9 /* SignUpViewModel.swift */,
-				03C891282BC4FBA9006FCFB9 /* SignInViewModel.swift */,
+				03C891282BC4FBA9006FCFB9 /* UserViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -267,11 +267,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				03C891272BC4FB9C006FCFB9 /* SignInView.swift in Sources */,
-				03C891292BC4FBA9006FCFB9 /* SignInViewModel.swift in Sources */,
+				03C891292BC4FBA9006FCFB9 /* UserViewModel.swift in Sources */,
 				03C890D72BC4EEE6006FCFB9 /* ContentView.swift in Sources */,
 				03C8911F2BC4F549006FCFB9 /* SignUpView.swift in Sources */,
 				03C891212BC4F653006FCFB9 /* UserModel.swift in Sources */,
-				03C891232BC4F668006FCFB9 /* SignUpViewModel.swift in Sources */,
+				03C8912D2BC794AF006FCFB9 /* HomeView.swift in Sources */,
 				03C890D52BC4EEE6006FCFB9 /* final_projectApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

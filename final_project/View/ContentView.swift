@@ -9,8 +9,14 @@ import SwiftUI
 
 
 struct ContentView: View {
+    @StateObject var userViewModel = UserViewModel()
+    
     var body: some View {
-        SignInView()
+        if userViewModel.user.signedIn {
+            HomeView().environmentObject(userViewModel)
+        } else {
+            SignInView().environmentObject(userViewModel)
+        }
     }
 }
 

@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct SignInView: View {
-    @StateObject var viewModel = SignInViewModel()
+    @EnvironmentObject var viewModel: UserViewModel
     
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack(alignment: .leading) {
                 Text("Sign In")
                     .font(.title)
                     .bold()
@@ -24,8 +24,8 @@ struct SignInView: View {
                 SecureField("Password", text: $viewModel.user.password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-                
-                NavigationLink(destination: SignUpView()) {
+            }
+                NavigationLink(destination: SignUpView().environmentObject(viewModel)) {
                     Text("Don't have an account? Sign Up")
                 }
                 .foregroundColor(.gray)
@@ -39,11 +39,6 @@ struct SignInView: View {
                 .foregroundColor(.white)
                 .bold()
                 .cornerRadius(8)
-            }
         }
     }
-}
-
-#Preview {
-    SignInView()
 }

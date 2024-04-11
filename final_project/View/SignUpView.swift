@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @StateObject var viewModel = SignUpViewModel()
+    @EnvironmentObject var viewModel: UserViewModel
 
-    
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Text("Sign Up")
                 .font(.title)
                 .bold()
@@ -24,7 +23,7 @@ struct SignUpView: View {
             SecureField("Password", text: $viewModel.user.password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
-            
+        }
             Button("Sign Up") {
                 viewModel.signUp()
             }
@@ -33,10 +32,5 @@ struct SignUpView: View {
             .foregroundColor(.white)
             .bold()
             .cornerRadius(8)
-        }
     }
-}
-
-#Preview {
-    SignUpView()
 }
