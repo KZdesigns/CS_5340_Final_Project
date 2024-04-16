@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct ContentView: View {
-    @StateObject var userViewModel = UserViewModel()
+    @EnvironmentObject var userViewModel: UserViewModel
     
     var body: some View {
         if userViewModel.user.signedIn {
@@ -21,5 +21,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView().environmentObject(UserViewModel())
 }

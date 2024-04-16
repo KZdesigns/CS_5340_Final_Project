@@ -21,10 +21,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct final_projectApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject var userViewModel = UserViewModel()
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(userViewModel)
         }
     }
 }
