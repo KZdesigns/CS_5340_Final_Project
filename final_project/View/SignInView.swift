@@ -39,6 +39,13 @@ struct SignInView: View {
                 .foregroundColor(.white)
                 .bold()
                 .cornerRadius(8)
+                .alert(isPresented: $viewModel.showAlert, content: {
+                    Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
+                })
         }
     }
+}
+
+#Preview {
+    SignInView().environmentObject(UserViewModel())
 }

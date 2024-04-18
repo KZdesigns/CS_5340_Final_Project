@@ -24,13 +24,42 @@ struct SignUpView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
         }
-            Button("Sign Up") {
-                viewModel.signUp()
-            }
+        
+        HStack(alignment: .center) {
+            VStack {
+                Text("Must contain 3 characters")
+                    .lineLimit(1)
+                Text("Must contain 1 capital letter")
+                    .lineLimit(1)
+                }
+                .frame(maxWidth: .infinity)
+                
+                       
+            VStack {
+                Text("Must include one number")
+                    .lineLimit(1)
+                Text("Must have 1 special character")
+                    .lineLimit(1)
+                }
+                .frame(maxWidth: .infinity)
+        }
+        .font(.caption2)
+        .padding()
+        
+        Button("Sign Up") {
+            viewModel.signUp()
+        }
             .padding()
             .background(Color.blue)
             .foregroundColor(.white)
             .bold()
             .cornerRadius(8)
+            .alert(isPresented: $viewModel.showAlert, content: {
+                Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
+            })
     }
+}
+
+#Preview {
+    SignUpView().environmentObject(UserViewModel())
 }

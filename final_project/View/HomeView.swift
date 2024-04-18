@@ -22,7 +22,7 @@ struct HomeView: View {
             .navigationTitle("Surf Sessions")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: SignInView()) {
+                    NavigationLink(destination: SignInView()) { // navigating to signInView is a place holder for now, as I am finishing up the final project
                         Image(systemName: "plus")
                     }
                 }
@@ -35,7 +35,9 @@ struct HomeView: View {
                 }
             }
             .padding()
-            
+            .alert(isPresented: $viewModel.showAlert, content: {
+                Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
+            })
         }
     }
 }
