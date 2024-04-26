@@ -8,41 +8,77 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject var viewModel: UserViewModel
-    
+    @EnvironmentObject var userViewModel: UserViewModel
+    @StateObject var sessionViewModel = SessionViewModel()
+    @State var session = SessionModel(locationName: "", rating: 0, tideHeight: "", userId: "", userInput: "", waveHeight: 0, windDirection: "")
+
+
     var body: some View {
-        NavigationView {
-            List {
-                Text("Session 1")
-                Text("Session 2")
-                Text("Session 3")
-                Text("Session 4")
-            }
-            .listStyle(.inset)
-            .navigationTitle("Surf Sessions")
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: SignInView()) { // navigating to signInView is a place holder for now, as I am finishing up the final project
-                        Image(systemName: "plus")
-                    }
-                }
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(action: {
-                        viewModel.signOut()
-                    }) {
-                        Image(systemName: "rectangle.portrait.and.arrow.right")
-                    }
-                }
-            }
-            .padding()
-            .alert(isPresented: $viewModel.showAlert, content: {
-                Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
-            })
-        }
-    }
-}
+          NavigationView {
+              VStack {
+                  if sessionViewModel.loading  {
+                        Spacer()
+                  } else if sessionViewModel.sessions.isEmpty {
+                      Text("Looks like you don't have any logged sessions! Get outside and go surfing, and when you're done make sure to log your sessions here.")
+                          .font(.callout)
+                          .multilineTextAlignment(.center)
+                          .padding()
+                          .padding()
+                          .padding(.vertical)
+                          .padding(.vertical)
+                      Spacer()
+                  } else {
+                      List {
+                          ForEach($sessionViewModel.sessions) { $session in
+                              NavigationLink {
+                                  LogView(session: $session, editable: true)
+                              } label: {
+                                  Text(session.locationName)
+                                  Spacer()
+                                  Text("Ranking: \(session.rating)")
+                              }
+                          }
+                          
+                      }
+                      .listStyle(.inset)
+                  }
+                     
+                  Button(action: {
+                      userViewModel.signOut()
+                  }, label: {
+                      Text("Log Out")
+                          .font(.headline)
+                  })
+                  .padding()
+              }
+              .onAppear {
+                  if let userId = userViewModel.user.id {
+                      sessionViewModel.fetchSessions(userId: userId)
+                     }
+              }
+              .refreshable {
+                  if let userId = userViewModel.user.id {
+                      sessionViewModel.fetchSessions(userId: userId)
+                     }
+              }
+              .navigationTitle("Surf Sessions")
+              .toolbar {
+                  ToolbarItem(placement: .navigationBarTrailing) {
+                      NavigationLink(destination: LogView(session: $session).environmentObject(userViewModel).navigationTitle("Session Details").navigationBarTitleDisplayMode(.large)) {
+                          Image(systemName: "plus")
+                      }
+                  }
+              }
+              .alert(isPresented: $userViewModel.showAlert, content: {
+                  Alert(title: Text("Error"), message: Text(userViewModel.alertMessage), dismissButton: .default(Text("OK")))
+              })
+              .alert(isPresented: $sessionViewModel.showAlert, content: {
+                  Alert(title: Text("Error"), message: Text(sessionViewModel.alertMessage), dismissButton: .default(Text("OK")))
+              })
+          }
+      }
+  }
 
 #Preview {
     HomeView().environmentObject(UserViewModel())
 }
-

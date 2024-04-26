@@ -9,7 +9,7 @@ import Foundation
 import FirebaseAuth
 
 class UserViewModel: ObservableObject {
-    @Published var user = User(email: "", password: "", signedIn: false)
+    @Published var user = UserModel(id: "", email: "", password: "", signedIn: false)
     @Published var showAlert = false
     @Published var alertMessage = ""
     
@@ -29,6 +29,7 @@ class UserViewModel: ObservableObject {
                 self?.showAlert = true
             } else {
                 print("Sign-in successful")
+                self?.user.id = authResult!.user.uid
                 self?.user.signedIn = true
                 self?.resetCredentials()
             }
@@ -49,6 +50,7 @@ class UserViewModel: ObservableObject {
                 self.showAlert = true
             } else {
                 print("Sign-up was successful")
+                self.user.id = authResult!.user.uid
                 self.user.signedIn = true
                 self.resetCredentials()
             }

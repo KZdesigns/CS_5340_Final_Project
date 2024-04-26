@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @EnvironmentObject var viewModel: UserViewModel
+    @EnvironmentObject var userViewModel: UserViewModel
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -17,10 +17,10 @@ struct SignUpView: View {
                 .bold()
                 .padding()
                 .padding(.bottom)
-            TextField("Email", text: $viewModel.user.email)
+            TextField("Email", text: $userViewModel.user.email)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
-            SecureField("Password", text: $viewModel.user.password)
+            SecureField("Password", text: $userViewModel.user.password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
         }
@@ -47,16 +47,18 @@ struct SignUpView: View {
         .padding()
         
         Button("Sign Up") {
-            viewModel.signUp()
+            userViewModel.signUp()
         }
             .padding()
             .background(Color.blue)
             .foregroundColor(.white)
             .bold()
             .cornerRadius(8)
-            .alert(isPresented: $viewModel.showAlert, content: {
-                Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
+            .alert(isPresented: $userViewModel.showAlert, content: {
+                Alert(title: Text("Error"), message: Text(userViewModel.alertMessage), dismissButton: .default(Text("OK")))
             })
+        Spacer()
+            .frame(height: 30)
     }
 }
 
