@@ -6,13 +6,15 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
-struct Session {
-    var id: String?
+struct SessionModel: Codable, Identifiable {
+    @DocumentID var id: String?
     var locationName: String
+    var rating: Int
+    var tideHeight: String
+    var userId: String
+    var userInput: String
     var waveHeight: Int
     var windDirection: String
-    var tideHeight: String
-    var rating: Int
-    var userInput: String
 }

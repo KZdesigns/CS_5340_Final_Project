@@ -8,83 +8,72 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject var viewModel: UserViewModel
-    
+    @EnvironmentObject var userViewModel: UserViewModel
+    @StateObject var sessionViewModel = SessionViewModel()
+    @State var session = SessionModel(locationName: "", rating: 0, tideHeight: "", userId: "", userInput: "", waveHeight: 0, windDirection: "")
+
+
     var body: some View {
           NavigationView {
               VStack {
-                  List {
-                      HStack {
-                          Text("Session 1")
-                          Spacer()
-                          Image(systemName: "arrow.forward")
+                  if sessionViewModel.loading  {
+                        Spacer()
+                  } else if sessionViewModel.sessions.isEmpty {
+                      Text("Looks like you don't have any logged sessions! Get outside and go surfing, and when you're done make sure to log your sessions here.")
+                          .font(.callout)
+                          .multilineTextAlignment(.center)
+                          .padding()
+                          .padding()
+                          .padding(.vertical)
+                          .padding(.vertical)
+                      Spacer()
+                  } else {
+                      List {
+                          ForEach($sessionViewModel.sessions) { $session in
+                              NavigationLink {
+                                  LogView(session: $session, editable: true)
+                              } label: {
+                                  Text(session.locationName)
+                                  Spacer()
+                                  Text("Ranking: \(session.rating)")
+                              }
+                          }
+                          
                       }
-                      HStack {
-                          Text("Session 2")
-                          Spacer()
-                          Image(systemName: "arrow.forward")
-                      }
-                      HStack {
-                          Text("Session 3")
-                          Spacer()
-                          Image(systemName: "arrow.forward")
-                      }
-                      HStack {
-                          Text("Session 4")
-                          Spacer()
-                          Image(systemName: "arrow.forward")
-                      }
-                      HStack {
-                          Text("Session 5")
-                          Spacer()
-                          Image(systemName: "arrow.forward")
-                      }
-                      HStack {
-                          Text("Session 6")
-                          Spacer()
-                          Image(systemName: "arrow.forward")
-                      }
-                      HStack {
-                          Text("Session 7")
-                          Spacer()
-                          Image(systemName: "arrow.forward")
-                      }
-                      HStack {
-                          Text("Session 8")
-                          Spacer()
-                          Image(systemName: "arrow.forward")
-                      }
-                      HStack {
-                          Text("Session 9")
-                          Spacer()
-                          Image(systemName: "arrow.forward")
-                      }
-                      HStack {
-                          Text("Session 10")
-                          Spacer()
-                          Image(systemName: "arrow.forward")
-                      }
+                      .listStyle(.inset)
                   }
-                  .listStyle(.inset)
-                  
+                     
                   Button(action: {
-                      viewModel.signOut()
+                      userViewModel.signOut()
                   }, label: {
                       Text("Log Out")
                           .font(.headline)
                   })
                   .padding()
               }
+              .onAppear {
+                  if let userId = userViewModel.user.id {
+                      sessionViewModel.fetchSessions(userId: userId)
+                     }
+              }
+              .refreshable {
+                  if let userId = userViewModel.user.id {
+                      sessionViewModel.fetchSessions(userId: userId)
+                     }
+              }
               .navigationTitle("Surf Sessions")
               .toolbar {
                   ToolbarItem(placement: .navigationBarTrailing) {
-                      NavigationLink(destination: LogView().navigationTitle("Session Details").navigationBarTitleDisplayMode(.large)) {
+                      NavigationLink(destination: LogView(session: $session).environmentObject(userViewModel).navigationTitle("Session Details").navigationBarTitleDisplayMode(.large)) {
                           Image(systemName: "plus")
                       }
                   }
               }
-              .alert(isPresented: $viewModel.showAlert, content: {
-                  Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
+              .alert(isPresented: $userViewModel.showAlert, content: {
+                  Alert(title: Text("Error"), message: Text(userViewModel.alertMessage), dismissButton: .default(Text("OK")))
+              })
+              .alert(isPresented: $sessionViewModel.showAlert, content: {
+                  Alert(title: Text("Error"), message: Text(sessionViewModel.alertMessage), dismissButton: .default(Text("OK")))
               })
           }
       }
@@ -93,13 +82,3 @@ struct HomeView: View {
 #Preview {
     HomeView().environmentObject(UserViewModel())
 }
-
-
-//
-//ToolbarItem(placement: .topBarLeading) {
-//    Button(action: {
-//        viewModel.signOut()
-//    }) {
-//        Image(systemName: "rectangle.portrait.and.arrow.right")
-//    }
-//}
