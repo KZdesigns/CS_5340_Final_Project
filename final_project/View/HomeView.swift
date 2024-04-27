@@ -11,8 +11,18 @@ struct HomeView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @StateObject var sessionViewModel = SessionViewModel()
     @State var session = SessionModel(locationName: "", rating: 0, tideHeight: "", userId: "", userInput: "", waveHeight: 0, windDirection: "")
-
-
+    
+    @State var searchText: String = ""
+    
+    var filteredSessions: [SessionModel] {
+           if searchText.isEmpty {
+               return sessionViewModel.sessions
+           } else {
+               return sessionViewModel.filter(searchTerm: searchText)
+           }
+       }
+    
+    
     var body: some View {
           NavigationView {
               VStack {
@@ -28,18 +38,21 @@ struct HomeView: View {
                           .padding(.vertical)
                       Spacer()
                   } else {
-                      List {
-                          ForEach($sessionViewModel.sessions) { $session in
-                              NavigationLink {
-                                  LogView(session: $session, editable: true)
-                              } label: {
-                                  Text(session.locationName)
-                                  Spacer()
-                                  Text("Ranking: \(session.rating)")
-                              }
-                          }
-                          
-                      }
+                      List(filteredSessions) { session in
+                          NavigationLink {
+                            if let index = sessionViewModel.sessions.firstIndex(where: { $0.id == session.id }) {
+                                    LogView(session: $sessionViewModel.sessions[index], editable: true)
+                                        } else {
+                                            Text("Session not found")
+                                        }
+                                } label: {
+                                VStack(alignment: .leading) {
+                                    Text(session.locationName)
+                                        Text("Ranking: \(session.rating)")
+                                }
+                            }
+                        }
+                      .searchable(text: $searchText)
                       .listStyle(.inset)
                   }
                      
@@ -63,10 +76,13 @@ struct HomeView: View {
               }
               .navigationTitle("Surf Sessions")
               .toolbar {
-                  ToolbarItem(placement: .navigationBarTrailing) {
+                  ToolbarItem(placement: .topBarTrailing) {
                       NavigationLink(destination: LogView(session: $session).environmentObject(userViewModel).navigationTitle("Session Details").navigationBarTitleDisplayMode(.large)) {
                           Image(systemName: "plus")
                       }
+                  }
+                  ToolbarItem(placement: .topBarLeading) {
+                     
                   }
               }
               .alert(isPresented: $userViewModel.showAlert, content: {

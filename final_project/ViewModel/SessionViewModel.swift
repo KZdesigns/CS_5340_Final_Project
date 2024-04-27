@@ -16,6 +16,14 @@ class SessionViewModel: ObservableObject {
     @Published var alertMessage = ""
     @Published var loading = false
     let db = Firestore.firestore()
+    
+    
+    func filter(searchTerm: String) -> [SessionModel] {
+        let lowercasedTerm = searchTerm.lowercased()
+        return sessions.filter { session in
+            session.locationName.lowercased().contains(lowercasedTerm)
+        }
+    }
 
     
     func fetchSessions(userId: String) {
